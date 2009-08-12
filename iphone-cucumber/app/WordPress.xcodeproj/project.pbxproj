@@ -1263,8 +1263,8 @@
 					DEBUGMODE,
 					BROMINE_ENABLED,
 				);
-				HEADER_SEARCH_PATHS = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.0.sdk/usr/include/libxml2;
-				INFOPLIST_FILE = "/Users/superfam/src/wp/Info copy.plist";
+				HEADER_SEARCH_PATHS = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.2.1.sdk/usr/include/libxml2;
+				INFOPLIST_FILE = "Info copy.plist";
 				PRODUCT_NAME = WordPress;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CA6DE7FF-44A3-4BD9-AAB6-3FD1A9C5111F";
 			};
@@ -1278,8 +1278,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WordPress_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = BROMINE_ENABLED;
-				HEADER_SEARCH_PATHS = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.0.sdk/usr/include/libxml2;
-				INFOPLIST_FILE = "/Users/superfam/src/wp/Info copy.plist";
+				HEADER_SEARCH_PATHS = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.2.1.sdk/usr/include/libxml2;
+				INFOPLIST_FILE = "Info copy.plist";
 				PRODUCT_NAME = WordPress;
 			};
 			name = Release;
@@ -1292,8 +1292,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WordPress_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = BROMINE_ENABLED;
-				HEADER_SEARCH_PATHS = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.0.sdk/usr/include/libxml2;
-				INFOPLIST_FILE = "/Users/superfam/src/wp/Info copy.plist";
+				HEADER_SEARCH_PATHS = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.2.1.sdk/usr/include/libxml2;
+				INFOPLIST_FILE = "Info copy.plist";
 				PRODUCT_NAME = WordPress;
 			};
 			name = Distribution;
