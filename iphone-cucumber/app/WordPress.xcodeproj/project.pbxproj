@@ -1204,7 +1204,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.0;
+				SDKROOT = iphoneos2.2.1;
 			};
 			name = Distribution;
 		};
@@ -1232,7 +1232,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "83A8AA6C-61D7-4F51-8757-AA6AD910CBAF";
-				SDKROOT = iphoneos2.0;
+				SDKROOT = iphoneos2.2.1;
 			};
 			name = Debug;
 		};
@@ -1245,7 +1245,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.0;
+				SDKROOT = iphoneos2.2.1;
 			};
 			name = Release;
 		};
