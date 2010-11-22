@@ -1,13 +1,13 @@
-javaaddpath "/path/to/your/project"
+javaaddpath('/path/to/your/project');
 
 tt = java_new("TemperatureTaker");
 tt.start();
 
-printf("Listening for temperature for 10 seconds\n");
+fprintf('Listening for temperature for 10 seconds\n');
 
 v = [];
 for i = 1:10,
-    sleep(1);
+    pause(1);
     v(i) = tt.temperature();
 end
 tt.stop();
