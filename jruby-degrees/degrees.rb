@@ -1,3 +1,4 @@
+require 'enumerator'
 require 'rubygems'
 require 'sinatra'
 require 'models'
@@ -12,8 +13,9 @@ get '/' do
     path = shortest_path(params[:from], params[:to])
 
     unless path.empty?
-      previous = path.first
-      path[1..-1].each_slice(2) do |movie, actor|
+      previous = path.shift
+      path.each_slice(2) do |slice|
+        movie, actor = slice
         list += %Q(#{previous} was in "#{movie}" with #{actor}<br/>)
         previous = actor
       end
