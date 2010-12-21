@@ -1,0 +1,65 @@
+namespace :algorithms do
+  directory 'neo4j'
+
+  desc 'Download Neo4j binaries for graph functions'
+  task :download do
+    sh <<HERE
+curl -o neo4j.zip http://dist.neo4j.org/neo4j-1.2.M04-windows.zip
+HERE
+  end
+
+  desc 'Extract Neo4j graph algorithms'
+  task :extract do
+    sh <<HERE
+unzip -j neo4j.zip neo4j-1.2.M04/lib/neo4j-graph-algo-0.7-1.2.M04.jar
+HERE
+  end
+end
+
+namespace :movies do
+  desc 'Download movie data'
+  task :download do
+    sh <<HERE
+curl -O http://download.freebase.com/datadumps\
+/latest/browse/film/performance.tsv
+HERE
+  end
+
+  desc 'Import movie data into Neo4j'
+  task :import do
+    require 'models'
+    require 'enumerator'
+
+    File.open('performance.tsv') do |f|
+      print 'Importing (0%)'
+
+      f.gets # header
+      f.each_slice(1000) do |lines|
+        Neo4j::Rails::Model.transaction do
+          lines.each do |line|
+            _, _, actor_name, movie_name = line.gsub('"', '').split("\t")
+            next if actor_name.empty? || movie_name.empty?
+
+            begin
+              actor = Actor.find_by_name(actor_name) ||
+                Actor.create(:name => actor_name)
+
+              movie = Movie.find_by_name(movie_name) ||
+                Movie.create(:name => movie_name)
+
+              actor.movies << movie
+
+              actor.save
+              movie.save
+            end
+          end
+        end
+
+        percent = 100.0 * f.pos / f.stat.size
+        printf "\rImporting (%d%%)", percent
+      end
+
+      puts
+    end
+  end
+end
