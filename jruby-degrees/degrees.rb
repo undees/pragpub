@@ -22,5 +22,8 @@ get '/' do
     end
   end
 
+  from.gsub! '"', '&quot;'
+  to.gsub!   '"', '&quot;'
+
   list + %Q(<form action="/"><input name="from" value="#{from}"/><input name="to" value="#{to}"/><input type="submit"/>)
 end

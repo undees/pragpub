@@ -38,7 +38,7 @@ HERE
       f.each_slice(250) do |lines|
         Neo4j::Transaction.run do
           lines.each do |line|
-            _, _, actor_name, movie_name = line.gsub('"', '').split("\t")
+            _, _, actor_name, movie_name = line.split "\t"
             next if actor_name.empty? || movie_name.empty?
 
             actor = Actor.find_or_create_by_name actor_name

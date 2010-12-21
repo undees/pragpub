@@ -5,7 +5,7 @@ Neo4j::Config[:storage_path] = 'movies'
 
 module Finders
   def find_by_name(name)
-    (found = find %Q[name: "#{name}"]) && found.first
+    (found = find "name: #{name.inspect}") && found.first
   end
 
   def find_or_create_by_name(name)
@@ -20,7 +20,8 @@ class Actor
   extend Finders
 
   property :name
-  index :name
+  index    :name
+
   has_n(:movies).to(Movie)
 end
 
@@ -29,6 +30,7 @@ class Movie
   extend Finders
 
   property :name
-  index :name
+  index    :name
+
   has_n(:actors).from(Actor, :movies)
 end
