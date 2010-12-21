@@ -30,33 +30,31 @@ HERE
     require 'models'
     require 'enumerator'
 
+    start = Time.now
     File.open('performance.tsv') do |f|
-      print 'Importing (0%)'
+      print 'Importing (0% done, calculating remaining)'
 
       f.gets # header
-      f.each_slice(1000) do |lines|
-        Neo4j::Rails::Model.transaction do
+      f.each_slice(250) do |lines|
+        Neo4j::Transaction.run do
           lines.each do |line|
             _, _, actor_name, movie_name = line.gsub('"', '').split("\t")
             next if actor_name.empty? || movie_name.empty?
 
-            begin
-              actor = Actor.find_by_name(actor_name) ||
-                Actor.create(:name => actor_name)
-
-              movie = Movie.find_by_name(movie_name) ||
-                Movie.create(:name => movie_name)
-
-              actor.movies << movie
-
-              actor.save
-              movie.save
-            end
+            actor = Actor.find_or_create_by_name actor_name
+            movie = Movie.find_or_create_by_name movie_name
+            actor.movies << movie
           end
         end
 
-        percent = 100.0 * f.pos / f.stat.size
-        printf "\rImporting (%d%%)", percent
+        complete  = f.pos.to_f / f.stat.size
+        elapsed   = Time.now - start
+        remaining = elapsed / complete - elapsed
+        countdown = '%d:%02d' % [remaining / 60, remaining % 60]
+
+        printf "\rImporting (%.02f%% done, %s remaining)      ",
+          complete * 100,
+          complete > 0.05 ? countdown : 'calculating'
       end
 
       puts
