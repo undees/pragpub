@@ -1,6 +1,4 @@
 namespace :algorithms do
-  directory 'neo4j'
-
   desc 'Download Neo4j binaries for graph functions'
   task :download do
     sh <<HERE
@@ -8,8 +6,10 @@ curl -o neo4j.zip http://dist.neo4j.org/neo4j-1.2.M04-windows.zip
 HERE
   end
 
+  file 'neo4j-1.2.M04-windows.zip' => :download
+
   desc 'Extract Neo4j graph algorithms'
-  task :extract do
+  task :extract => 'neo4j-1.2.M04-windows.zip' do
     sh <<HERE
 unzip -j neo4j.zip neo4j-1.2.M04/lib/neo4j-graph-algo-0.7-1.2.M04.jar
 HERE
@@ -25,8 +25,10 @@ curl -O http://download.freebase.com/datadumps\
 HERE
   end
 
+  file 'performance.tsv' => :download
+
   desc 'Import movie data into Neo4j'
-  task :import do
+  task :import => 'performance.tsv' do
     require 'models'
     require 'enumerator'
 
