@@ -1,26 +1,21 @@
-require 'models'
-require 'java'
+require 'cgi'
 require 'enumerator'
-require 'neo4j-graph-algo-0.7-1.2.M04.jar'
-
-java_import 'org.neo4j.graphalgo.GraphAlgoFactory'
-java_import 'org.neo4j.kernel.Traversal'
-java_import 'org.neo4j.graphdb.DynamicRelationshipType'
+require 'neography'
 
 def shortest_path(from_name, to_name)
-  from = Actor.find_by_name from_name
-  to   = Actor.find_by_name to_name
+  neo  = Neography::Rest.new
+  from = neo.get_index 'actor', CGI.escape(from_name)
+  to   = neo.get_index 'actor', CGI.escape(to_name)
 
   return [] unless from && to
 
-  finder = GraphAlgoFactory.shortestPath \
-    Traversal.expanderForAllTypes, 12
+  acting = {'type' => 'acting'}
+  nodes  = neo.get_path(from.first, to.first, acting, 12)['nodes']
 
-  path = finder.find_single_path \
-    from._java_node,
-    to._java_node
+  return [] unless nodes
 
-  return [] unless path
-
-  path.select { |n| n.has_property :name }.map { |n| n[:name] }
+  nodes.map do |node|
+    id = node.split('/').last
+    neo.get_node(id)['data']['name']
+  end
 end

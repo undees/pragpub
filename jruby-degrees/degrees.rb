@@ -1,7 +1,6 @@
 require 'enumerator'
 require 'rubygems'
 require 'sinatra'
-require 'models'
 require 'shortest_path'
 
 get '/' do
