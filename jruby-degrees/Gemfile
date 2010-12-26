@@ -1,0 +1,5 @@
+source 'http://rubygems.org'
+
+gem 'jruby-openssl', '~> 0.7'
+gem 'neography',     '~> 0.0'
+gem 'sinatra',       '~> 1.1'

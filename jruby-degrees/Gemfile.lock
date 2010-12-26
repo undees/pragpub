@@ -1,0 +1,26 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    bouncy-castle-java (1.5.0145.2)
+    crack (0.1.8)
+    httparty (0.6.1)
+      crack (= 0.1.8)
+    jruby-openssl (0.7.2)
+      bouncy-castle-java
+    json (1.4.6-java)
+    neography (0.0.7)
+      httparty (~> 0.6.1)
+      json
+    rack (1.2.1)
+    sinatra (1.1.2)
+      rack (~> 1.1)
+      tilt (~> 1.2)
+    tilt (1.2.1)
+
+PLATFORMS
+  java
+
+DEPENDENCIES
+  jruby-openssl (~> 0.7)
+  neography (~> 0.0)
+  sinatra (~> 1.1)

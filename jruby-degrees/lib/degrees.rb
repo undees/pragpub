@@ -1,7 +1,7 @@
 require 'enumerator'
 require 'rubygems'
 require 'sinatra'
-require 'shortest_path'
+require 'lib/shortest_path'
 
 get '/' do
   from = params[:from] || 'Kevin Bacon'
