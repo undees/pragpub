@@ -36,12 +36,12 @@ HERE
     module Finder
       def find_or_create(type, name)
         cgi = CGI.escape name
-        hit = get_index type, cgi
+        hit = get_index type, 'name', cgi
 
         return hit.first if hit
 
         node = create_node 'name' => name
-        add_to_index type, cgi, node
+        add_to_index type, 'name', cgi, node
         node
       end
     end

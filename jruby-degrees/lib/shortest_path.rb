@@ -4,8 +4,8 @@ require 'neography'
 
 def shortest_path(from_name, to_name)
   neo  = Neography::Rest.new
-  from = neo.get_index 'actor', CGI.escape(from_name)
-  to   = neo.get_index 'actor', CGI.escape(to_name)
+  from = neo.get_index 'actor', 'name', CGI.escape(from_name)
+  to   = neo.get_index 'actor', 'name', CGI.escape(to_name)
 
   return [] unless from && to
 
