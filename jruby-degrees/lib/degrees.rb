@@ -1,6 +1,4 @@
-require 'cgi'
 require 'enumerator'
-require 'rubygems'
 require 'sinatra'
 require 'haml'
 require 'lib/database'
@@ -16,7 +14,7 @@ get '/' do
          end
 
   previous = path.shift
-  @results = path.each_slice(2).map do |slice|
+  @results = path.each_slice(2).map do |slice| #<label id="co.slice"/>
     movie, actor = slice
     result = %Q(#{previous} was in "#{movie}" with #{actor})
     previous = actor

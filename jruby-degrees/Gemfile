@@ -1,8 +1,13 @@
+# START:neography
 source 'http://rubygems.org'
 
-git 'git://github.com/undees/neography.git'
-gem 'neography',     '~> 0.0.7'
-gem 'jruby-openssl', '~> 0.7'
+gem 'neography', '~> 0.0.7',
+  :git => 'git://github.com/undees/neography.git'
 
-gem 'sinatra',       '~> 1.1'
-gem 'haml',          '~> 3.0'
+gem 'jruby-openssl', '~> 0.7'
+# END:neography
+
+# START:sinatra
+gem 'sinatra', '~> 1.1'
+gem 'haml',    '~> 3.0'
+# END:sinatra

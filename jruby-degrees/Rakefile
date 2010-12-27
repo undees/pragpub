@@ -1,66 +1,49 @@
-namespace :algorithms do
-  desc 'Download Neo4j binaries for graph functions'
-  task :download do
-    sh <<HERE
-curl -o neo4j.zip http://dist.neo4j.org/neo4j-1.2.M04-windows.zip
-HERE
-  end
-
-#  file 'neo4j-1.2.M04-windows.zip' => :download
-
-  desc 'Extract Neo4j graph algorithms'
-  task :extract => 'neo4j-1.2.M04-windows.zip' do
-    sh <<HERE
-unzip -j neo4j.zip neo4j-1.2.M04/lib/neo4j-graph-algo-0.7-1.2.M04.jar
-HERE
-  end
-end
-
-namespace :movies do
-  desc 'Download movie data'
-  task :download do
-    sh <<HERE
+file 'performance.tsv' do
+  sh <<HERE
 curl -O http://download.freebase.com/datadumps\
 /latest/browse/film/performance.tsv
 HERE
-  end
+end
 
- #  file 'performance.tsv' => :download
+desc 'Download movie data'
+task :download => 'performance.tsv'
 
-  desc 'Import movie data into Neo4j'
-  task :import => 'performance.tsv' do
-    start = Time.now
-    print 'Importing (0% done, calculating remaining)'
+# START:import
+desc 'Import movie data into Neo4j'
+task :import do
+# END:import
+  start = Time.now
+  print 'Importing (0% done, calculating remaining)'
 
-    # START:import
-    require 'lib/database'
+  # START:import
+  require 'lib/database'
 
-    File.open('performance.tsv') do |f|
-      db = Database.new
+  File.open('performance.tsv') do |f|
+    db = Database.new
 
-      f.gets # header
-      f.each_line do |line|
-        _, _, actor_name, movie_name = line.split "\t"
-        next if actor_name.empty? || movie_name.empty?
+    f.gets # header
+    f.each_line do |line|
+      _, _, actor_name, movie_name = line.split "\t"
+      next if actor_name.empty? || movie_name.empty?
 
-        actor = db.find_or_create 'actor', actor_name
-        movie = db.find_or_create 'movie', movie_name
-        db.role actor, movie
-        # END:import
+      actor = db.find_or_create 'actor', actor_name
+      movie = db.find_or_create 'movie', movie_name
+      db.acted_in actor, movie
+      # END:import
 
-        complete  = f.pos.to_f / f.stat.size
-        elapsed   = Time.now - start
-        remaining = elapsed / complete - elapsed
-        countdown = '%d:%02d' % [remaining / 60, remaining % 60]
+      complete  = f.pos.to_f / f.stat.size
+      elapsed   = Time.now - start
+      remaining = elapsed / complete - elapsed
+      countdown = '%d:%02d' % [remaining / 60, remaining % 60]
 
-        printf "\rImporting (%.02f%% done, %s remaining)      ",
-          complete * 100,
-          complete > 0.05 ? countdown : 'calculating'
+      printf "\rImporting (%.02f%% done, %s remaining)      ",
+      complete * 100,
+      complete > 0.05 ? countdown : 'calculating'
 
-        # START:import
-      end
+      # START:import
     end
-    # END:import
-    puts
   end
 end
+# END:import
+
+task :import => 'performance.tsv'
