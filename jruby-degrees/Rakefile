@@ -6,7 +6,7 @@ curl -o neo4j.zip http://dist.neo4j.org/neo4j-1.2.M04-windows.zip
 HERE
   end
 
-  file 'neo4j-1.2.M04-windows.zip' => :download
+#  file 'neo4j-1.2.M04-windows.zip' => :download
 
   desc 'Extract Neo4j graph algorithms'
   task :extract => 'neo4j-1.2.M04-windows.zip' do
@@ -25,7 +25,7 @@ curl -O http://download.freebase.com/datadumps\
 HERE
   end
 
-  file 'performance.tsv' => :download
+ #  file 'performance.tsv' => :download
 
   desc 'Import movie data into Neo4j'
   task :import => 'performance.tsv' do
