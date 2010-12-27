@@ -29,49 +29,29 @@ HERE
 
   desc 'Import movie data into Neo4j'
   task :import => 'performance.tsv' do
-    # START:import
-    require 'neography'
-    require 'cgi'
-
-    module Finder
-      def find_or_create(type, name)
-        cgi = CGI.escape name
-        hit = get_index type, 'name', cgi
-
-        return hit.first if hit
-
-        node = create_node 'name' => name
-        add_to_index type, 'name', cgi, node
-        node
-      end
-    end
-    # END:import
-
     start = Time.now
+    print 'Importing (0% done, calculating remaining)'
 
     # START:import
-    File.open('performance.tsv') do |f|
-      # END:import
-      print 'Importing (0% done, calculating remaining)'
+    require 'lib/database'
 
-      # START:import
-      neo = Neography::Rest.new
-      class << neo; include Finder end
+    File.open('performance.tsv') do |f|
+      db = Database.new
 
       f.gets # header
       f.each_line do |line|
         _, _, actor_name, movie_name = line.split "\t"
         next if actor_name.empty? || movie_name.empty?
 
-        actor = neo.find_or_create 'actor', actor_name
-        movie = neo.find_or_create 'movie', movie_name
-        neo.create_relationship 'acting', actor, movie
+        actor = db.find_or_create 'actor', actor_name
+        movie = db.find_or_create 'movie', movie_name
+        db.role actor, movie
+        # END:import
 
         complete  = f.pos.to_f / f.stat.size
         elapsed   = Time.now - start
         remaining = elapsed / complete - elapsed
         countdown = '%d:%02d' % [remaining / 60, remaining % 60]
-        # END:import
 
         printf "\rImporting (%.02f%% done, %s remaining)      ",
           complete * 100,
@@ -79,11 +59,8 @@ HERE
 
         # START:import
       end
-      # END:import
-
-      puts
-      # START:import
     end
     # END:import
+    puts
   end
 end

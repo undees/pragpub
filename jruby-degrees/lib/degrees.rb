@@ -1,28 +1,30 @@
+require 'cgi'
 require 'enumerator'
 require 'rubygems'
 require 'sinatra'
-require 'lib/shortest_path'
+require 'haml'
+require 'lib/database'
 
 get '/' do
   from = params[:from] || 'Kevin Bacon'
   to   = params[:to]   || ''
-  list = ''
 
-  unless from.empty? || to.empty?
-    path = shortest_path(params[:from], params[:to])
+  path = if to.empty?
+           []
+         else
+           Database.new.shortest_path from, to
+         end
 
-    unless path.empty?
-      previous = path.shift
-      path.each_slice(2) do |slice|
-        movie, actor = slice
-        list += %Q(#{previous} was in "#{movie}" with #{actor}<br/>)
-        previous = actor
-      end
-    end
+  previous = path.shift
+  @results = path.each_slice(2).map do |slice|
+    movie, actor = slice
+    result = %Q(#{previous} was in "#{movie}" with #{actor})
+    previous = actor
+    result
   end
 
-  from.gsub! '"', '&quot;'
-  to.gsub!   '"', '&quot;'
+  @from = CGI.escapeHTML from
+  @to   = CGI.escapeHTML to
 
-  list + %Q(<form action="/"><input name="from" value="#{from}"/><input name="to" value="#{to}"/><input type="submit"/>)
+  haml :index
 end
