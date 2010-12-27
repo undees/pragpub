@@ -29,8 +29,8 @@ HERE
 
   desc 'Import movie data into Neo4j'
   task :import => 'performance.tsv' do
+    # START:import
     require 'neography'
-    require 'enumerator'
     require 'cgi'
 
     module Finder
@@ -45,11 +45,16 @@ HERE
         node
       end
     end
+    # END:import
 
     start = Time.now
+
+    # START:import
     File.open('performance.tsv') do |f|
+      # END:import
       print 'Importing (0% done, calculating remaining)'
 
+      # START:import
       neo = Neography::Rest.new
       class << neo; include Finder end
 
@@ -66,13 +71,19 @@ HERE
         elapsed   = Time.now - start
         remaining = elapsed / complete - elapsed
         countdown = '%d:%02d' % [remaining / 60, remaining % 60]
+        # END:import
 
         printf "\rImporting (%.02f%% done, %s remaining)      ",
           complete * 100,
           complete > 0.05 ? countdown : 'calculating'
+
+        # START:import
       end
+      # END:import
 
       puts
+      # START:import
     end
+    # END:import
   end
 end
