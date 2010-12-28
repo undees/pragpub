@@ -1,4 +1,5 @@
 # START:basics
+require 'bundler/setup'
 require 'neography'
 require 'cgi'
 

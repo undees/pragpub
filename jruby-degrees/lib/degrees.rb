@@ -1,3 +1,4 @@
+require 'bundler/setup'
 require 'enumerator'
 require 'sinatra'
 require 'haml'
