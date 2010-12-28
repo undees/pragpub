@@ -25,8 +25,8 @@ class Database
     node
   end
 
-  def acted_in(actor, movie)     # <label id="co.relationship"/>
-    neo.create_relationship 'acting', actor, movie
+  def acted_in(actor, movie)
+    neo.create_relationship 'acting', actor, movie  # <label id="co.relationship"/>
   end
   # END:basics
 

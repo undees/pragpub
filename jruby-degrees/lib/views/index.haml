@@ -2,8 +2,7 @@
 %ol
   - @results.each do |result|
     %li #{result}
-
 %form(action="/")
   %input(name="from"   value="#{@from}")
   %input(name="to"     value="#{@to}")
-  %input(name="Search" type="submit")
+  %input(type="submit" value="Search")
