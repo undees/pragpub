@@ -4,6 +4,8 @@ require 'sinatra'
 require 'haml'
 require 'lib/database'
 
+db = Database.new
+
 get '/' do
   from = params[:from] || 'Kevin Bacon'
   to   = params[:to]   || ''
@@ -11,7 +13,7 @@ get '/' do
   path = if to.empty?
            []
          else
-           Database.new.shortest_path from, to
+           db.shortest_path from, to
          end
 
   previous = path.shift
