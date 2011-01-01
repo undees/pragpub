@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/undees/neography.git
-  revision: beba0a4a24bffea044283704e2e744475d08a7e5
-  tag: warbler
+  revision: 971d94b166add4c5aab0ae2a55a47ba0cd6a1b8e
+  branch: warbler
   specs:
     neography (0.0.7)
       httparty (~> 0.6.1)

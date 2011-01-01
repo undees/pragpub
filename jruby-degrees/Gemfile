@@ -2,8 +2,8 @@
 source 'http://rubygems.org'
 
 gem 'neography', '~> 0.0.7',
-  :git => 'git://github.com/undees/neography.git',
-  :tag => 'warbler'
+  :git    => 'git://github.com/undees/neography.git',
+  :branch => 'warbler'
 
 gem 'jruby-openssl', '~> 0.7'
 # END:neography
