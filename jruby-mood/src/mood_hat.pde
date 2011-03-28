@@ -4,7 +4,6 @@
 
 #define UP    '+'
 #define DOWN  '-'
-#define RESET '!'
 #define QUERY '?'
 #define NONE  -1
 
@@ -47,9 +46,6 @@ void loop() {
         break;
     case DOWN:
         setMood(mood - 1);
-        break;
-    case RESET:
-        setMood(NEUTRAL);
         break;
     case QUERY:
         Serial.print('0' + mood, BYTE);
