@@ -1,4 +1,6 @@
 /* START:defs */
+#include <Bounce.h>
+
 #define NUM_MOODS 5
 #define NEUTRAL ((NUM_MOODS - 1) / 2)
 
@@ -7,34 +9,39 @@
 #define QUERY '?'
 #define NONE  -1
 
-int upPin              = 2;
-int downPin            = 3;
 int ledPins[NUM_MOODS] = {6, 7, 8, 9, 10};
 int heartbeatPin       = 13;
+int upPin              = 2;
+int downPin            = 3;
+
+Bounce upButton  (upPin,   100);
+Bounce downButton(downPin, 100);
 
 int mood = NEUTRAL;
 /* END:defs */
 
 /* START:setup */
 void setup() {
-     int i;
-     for (i = 0; i < NUM_MOODS; ++i) {
-          pinMode(ledPins[i], OUTPUT);
-     }
+    for (int i = 0; i < NUM_MOODS; ++i) {
+        pinMode(ledPins[i], OUTPUT);
+    }
 
-     pinMode(upPin,   INPUT);
-     pinMode(downPin, INPUT);
+    pinMode(upPin,   INPUT);
+    pinMode(downPin, INPUT);
 
-     Serial.begin(9600);
+    Serial.begin(9600);
 
-     setMood(NEUTRAL);
+    setMood(NEUTRAL);
 }
 /* END:setup */
 
 /* START:loop */
 void loop() {
-    int button = (LOW == digitalRead(upPin) ? UP :
-                  (LOW == digitalRead(downPin) ? DOWN : NONE));
+    upButton.update();
+    downButton.update();
+
+    int button = (upButton.fallingEdge() ? UP :
+                  (downButton.fallingEdge() ? DOWN : NONE));
 
     int serial = (Serial.available() > 0 ? Serial.read() : NONE);
 
